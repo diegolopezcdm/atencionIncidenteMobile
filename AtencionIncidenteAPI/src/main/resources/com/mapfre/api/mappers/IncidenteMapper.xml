@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='com.mapfre.api.mappers.IncidenteMapper'>
+
+  <select id='get' parameterType='int' resultType='com.mapfre.api.model.SolicitudPendiente'>     
+ select
+	a.id_solicitud as id,
+    a.txt_numero as numeroCti,
+    x.txt_numero_matricula as matricula,
+    x.TXT_NOMBRE+' '+x.TXT_APELLIDO_PAT as nombre,
+	si.TXT_NOMBRE as sistema, 
+	t.TXT_DESCRIPCION as tipoSolicitud,
+	p.TXT_NOMBRE as proceso,
+	CASE a.ID_TIPO_SOLICITUD WHEN 2 THEN b.TXT_ASUNTO WHEN 3 THEN b.TXT_RESUMEN ELSE' 'END as asunto,
+	b.TXT_DESCRIPCION as descripcion,
+	CASE a.ID_TIPO_SOLICITUD WHEN 2 THEN b.TXT_DATOS_MODIFICAR WHEN 3 THEN b.TXT_FECHAS_CORTE ELSE' 'END as datosAModificar
+from
+	solicitud a
+	join incidente b on a.id_solicitud=b.id_solicitud
+	join usuario u on u.ID_USUARIO=a.USUARIO_ADICION
+	join PERSONAL x on x.id_persona=u.ID_PERSONA
+	join sistema si on si.ID_SISTEMA=a.ID_PROCESO
+	join proceso p on p.id_sistema=a.ID_SISTEMA
+	and p.ID_PROCESO=a.ID_PROCESO
+	join subproceso sp on sp.id_sistema=a.ID_SISTEMA
+	and sp.ID_PROCESO=a.ID_PROCESO
+	and sp.ID_SUBPROCESO=a.ID_SUBPROCESO
+	join TIPO_SOLICITUD t on t.ID_TIPO_SOLICITUD=a.ID_TIPO_SOLICITUD
+where a.id_solicitud=#{id}
+     </select>
+
+  <select id='list' resultType='com.mapfre.api.model.SolicitudPendiente'>
+   	select 
+a.id_solicitud as id, 
+   		a.txt_numero as numeroCti,
+   		p.TXT_nombre as proceso,
+   		t.TXT_DESCRIPCION as tipoSolicitud
+from solicitud a
+		join incidente b on a.id_solicitud=b.id_solicitud
+		join proceso p on p.id_sistema=a.ID_SISTEMA
+		and p.ID_PROCESO=a.ID_PROCESO
+		join TIPO_SOLICITUD t on t.ID_TIPO_SOLICITUD=a.ID_TIPO_SOLICITUD
+where b.ID_ESTADO='PEN'
+order by b.FLG_AFECTA_IDI desc;
+  </select>
+
+  <update id='aprobar' parameterType='int'>
+  UPDATE INCIDENTE
+SET ID_ESTADO='APR'
+WHERE ID_SOLICITUD= #{id}
+  </update>
+
+</mapper>
