@@ -33,7 +33,7 @@ public class SolicitudPendienteListActivity extends AppCompatActivity {
         solicitudPentientes.add(new SolicitudPentiente(2,"numero cti2","proceso2","tipo solicitud2"));
         solicitudPentientes.add(new SolicitudPentiente(3,"numero cti3","proceso3","tipo solicitud3"));
 
-        JsonArrayRequest jsonArrayReq = new JsonArrayRequest("https://"+AppSingleton.server+"/AtencionIncidenteAPI/resources/incidentes",
+        JsonArrayRequest jsonArrayReq = new JsonArrayRequest(AppSingleton.server+"incidentes",
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {

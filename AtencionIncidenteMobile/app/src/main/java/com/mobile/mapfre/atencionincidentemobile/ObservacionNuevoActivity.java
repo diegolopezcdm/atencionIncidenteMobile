@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 
 import com.android.volley.Response;
@@ -42,7 +43,7 @@ public class ObservacionNuevoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String url = "https://" + AppSingleton.server + "/AtencionIncidenteAPI/resources/observaciones";
+                String url = AppSingleton.server + "incidentes/"+incidenteId+"/observar";
 
 
                 StringRequest postRequest = new StringRequest(Request.Method.POST, url,
@@ -67,7 +68,13 @@ public class ObservacionNuevoActivity extends AppCompatActivity {
                     {
                         Map<String, String>  params = new HashMap<String, String>();
                         params.put("observacion", observacion.getText().toString());
-                        params.put("incidenteId", incidenteId);
+                        return params;
+                    }
+
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String,String> params = new HashMap<String, String>();
+                        params.put("Content-Type","application/json");
                         return params;
                     }
                 };

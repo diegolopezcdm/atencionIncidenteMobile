@@ -60,7 +60,7 @@ public class SolicitudPendienteFindActivity extends AppCompatActivity {
 
         final SolicitudPentiente solicitudPentiente = new SolicitudPentiente();
 
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, "https://"+AppSingleton.server+"/AtencionIncidenteAPI/resources/incidentes/"+incidenteId, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, AppSingleton.server+"incidentes/"+incidenteId, null, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
@@ -105,7 +105,7 @@ public class SolicitudPendienteFindActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String url = "https://" + AppSingleton.server + "/AtencionIncidenteAPI/resources/incidentes/" + incidenteId + "/aprobar";
+                String url = AppSingleton.server + "incidentes/" + incidenteId + "/aprobar";
 
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                         new Response.Listener<String>() {

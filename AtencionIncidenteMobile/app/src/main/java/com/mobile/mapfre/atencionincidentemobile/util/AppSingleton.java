@@ -17,7 +17,7 @@ public class AppSingleton {
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
     private static Context mContext;
-    public static String server = "";
+    public static String server = "http://192.168.1.1:8080/AtencionIncidenteAPI/resources/";
  
     private AppSingleton(Context context) {
         mContext = context;
