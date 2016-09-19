@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -15,14 +16,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.mobile.mapfre.atencionincidentemobile.util.AppSingleton;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ObservacionNuevoActivity extends AppCompatActivity {
 
-    private TextView observacion;
+    private EditText observacion;
     private TextView numeroCti;
     private Button registrar;
+    String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonArrayRequest";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,7 @@ public class ObservacionNuevoActivity extends AppCompatActivity {
         String numeroCtitxt = bundle.getString("numeroCti");
 
         registrar = (Button) findViewById(R.id.registrarObservacionBtn);
-        observacion = (TextView) findViewById(R.id.observacionTxt);
+        observacion = (EditText) findViewById(R.id.observacionTxt);
         numeroCti = (TextView) findViewById(R.id.numeroCtiTxtObs);
 
         numeroCti.setText(numeroCtitxt);
@@ -64,12 +67,27 @@ public class ObservacionNuevoActivity extends AppCompatActivity {
                         }
                 ) {
                     @Override
+                    public byte[] getBody() throws AuthFailureError
+                    {
+                        String body = "{\"detalle\" : \""+observacion.getText().toString()+"\"}";
+                        try
+                        {
+                            return body.getBytes(getParamsEncoding());
+                        }
+                        catch (UnsupportedEncodingException uee)
+                        {
+                            throw new RuntimeException("Encoding not supported: "
+                                    + getParamsEncoding(), uee);
+                        }
+                    }
+
+                   /*- @Override
                     protected Map<String, String> getParams()
                     {
                         Map<String, String>  params = new HashMap<String, String>();
-                        params.put("observacion", observacion.getText().toString());
+                        params.put("detalle", observacion.getText().toString());
                         return params;
-                    }
+                    }*/
 
                     @Override
                     public Map<String, String> getHeaders() throws AuthFailureError {
@@ -78,6 +96,8 @@ public class ObservacionNuevoActivity extends AppCompatActivity {
                         return params;
                     }
                 };
+
+                AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(postRequest, REQUEST_TAG);
 
                 Intent intent = new Intent(getBaseContext(), SolicitudPendienteListActivity.class);
                 startActivity(intent);

@@ -75,6 +75,18 @@ public class SolicitudPendienteFindActivity extends AppCompatActivity {
                     solicitudPentiente.setDescripcion(response.getString("descripcion"));
                     solicitudPentiente.setTipoSolicitud(response.getString("tipoSolicitud"));
                     solicitudPentiente.setDatosAModificar(response.getString("datosAModificar"));
+
+                    numeroCti.setText(solicitudPentiente.getNumeroCti());
+                    matricula.setText(solicitudPentiente.getMatricula());
+                    sistema.setText(solicitudPentiente.getSistema());
+                    proceso.setText(solicitudPentiente.getProceso());
+                    subproceso.setText(solicitudPentiente.getSubProceso());
+                    asunto.setText(solicitudPentiente.getAsunto());
+                    descripcion.setText(solicitudPentiente.getDescripcion());
+                    datosAModificar.setText(solicitudPentiente.getDatosAModificar());
+                    tipoSolicitud.setText(solicitudPentiente.getTipoSolicitud());
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -91,15 +103,7 @@ public class SolicitudPendienteFindActivity extends AppCompatActivity {
         // Adding JsonObject request to request queue
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsObjRequest, REQUEST_TAG);
 
-        numeroCti.setText(solicitudPentiente.getNumeroCti());
-        matricula.setText(solicitudPentiente.getMatricula());
-        sistema.setText(solicitudPentiente.getSistema());
-        proceso.setText(solicitudPentiente.getProceso());
-        subproceso.setText(solicitudPentiente.getSubProceso());
-        asunto.setText(solicitudPentiente.getAsunto());
-        descripcion.setText(solicitudPentiente.getDescripcion());
-        datosAModificar.setText(solicitudPentiente.getDatosAModificar());
-        tipoSolicitud.setText(solicitudPentiente.getTipoSolicitud());
+
 
         aprobar.setOnClickListener(new View.OnClickListener() {
             @Override

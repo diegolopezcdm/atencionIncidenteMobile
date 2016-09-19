@@ -22,6 +22,8 @@ import java.util.List;
 public class SolicitudPendienteListActivity extends AppCompatActivity {
 
     String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonArrayRequest";
+    private RecyclerView rv;
+    private SolicitudPendienteAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +31,6 @@ public class SolicitudPendienteListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_solicitud_pendiente_list);
         setTitle("PRIMA AFP - Solicitudes por Aprobar");
         final List<SolicitudPentiente> solicitudPentientes = new ArrayList<>();
-        solicitudPentientes.add(new SolicitudPentiente(1,"numero cti","proceso","tipo solicitud"));
-        solicitudPentientes.add(new SolicitudPentiente(2,"numero cti2","proceso2","tipo solicitud2"));
-        solicitudPentientes.add(new SolicitudPentiente(3,"numero cti3","proceso3","tipo solicitud3"));
 
         JsonArrayRequest jsonArrayReq = new JsonArrayRequest(AppSingleton.server+"incidentes",
                 new Response.Listener<JSONArray>() {
@@ -58,7 +57,7 @@ public class SolicitudPendienteListActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
-
+                        adapter.notifyDataSetChanged();
                                         }
                 }, new Response.ErrorListener() {
             @Override
@@ -70,10 +69,11 @@ public class SolicitudPendienteListActivity extends AppCompatActivity {
         // Adding JsonObject request to request queue
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonArrayReq, REQUEST_TAG);
 
-        RecyclerView rv = (RecyclerView)findViewById(R.id.solicitudPendienteRv);
+        rv = (RecyclerView)findViewById(R.id.solicitudPendienteRv);
         LinearLayoutManager llm = new LinearLayoutManager(getBaseContext());
         rv.setLayoutManager(llm);
-        SolicitudPendienteAdapter adapter = new SolicitudPendienteAdapter(solicitudPentientes);
+        adapter = new SolicitudPendienteAdapter(solicitudPentientes);
         rv.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 }
