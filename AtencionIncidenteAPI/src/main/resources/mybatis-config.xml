@@ -20,5 +20,7 @@
   </environments>
   <mappers>
  <mapper resource='com/mapfre/api/mappers/IncidenteMapper.xml'/>
+ <mapper resource='com/mapfre/api/mappers/SeguimientoIncidenteMapper.xml'/>
+ <mapper resource='com/mapfre/api/mappers/UsuarioMapper.xml'/>
   </mappers>
 </configuration>

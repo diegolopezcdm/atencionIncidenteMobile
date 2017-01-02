@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='com.mapfre.api.mappers.SeguimientoIncidenteMapper'>
+
+ 
+  <insert id='registrar'>
+	Insert into seguimiento_incidente
+		(id_solicitud,
+		num_secuencia,
+		txt_detalle,
+		flg_estado,
+		fec_estado_inicio,
+		usuario_adicion,
+		fecha_adicion)
+	Values
+		(#{idSolicitud},
+		(select  
+			case when (select num_secuencia from seguimiento_incidente where id_solicitud=1) is null 
+				then 1 
+			else (select num_secuencia from seguimiento_incidente where id_solicitud=1)+1 
+			END
+		as num_secuencia),
+		#{detalle},
+		#{estado},
+		GETDATE(),
+		'LROBLES',
+		GETDATE())
+  </insert>
+  
+</mapper>

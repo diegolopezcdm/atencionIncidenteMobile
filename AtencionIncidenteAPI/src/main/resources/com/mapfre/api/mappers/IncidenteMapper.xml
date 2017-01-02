@@ -51,5 +51,34 @@ order by b.FLG_AFECTA_IDI desc;
 SET ID_ESTADO='APR'
 WHERE ID_SOLICITUD= #{id}
   </update>
+  
+  <update id='observar' parameterType='int'>
+  UPDATE INCIDENTE
+SET ID_ESTADO='COO'
+WHERE ID_SOLICITUD= #{id}
+  </update>
+  
+  <select id = "getRegla" resultType = "String" parameterType = "String" statementType = "CALLABLE">
+      <![CDATA[ {call getReglaNotificacion(#{idSolicitud,  mode=IN, jdbcType=VARCHAR})} ]]>
+   </select>
+   
+   <select id = "asignarAnalista" resultType = "String" statementType = "CALLABLE">
+      <![CDATA[ {call asignarAnalista(#{idSolicitud,  mode=IN, jdbcType=VARCHAR},
+      #{FLG_AFECTA_IDI,  mode=IN, jdbcType=VARCHAR},
+      #{FLG_REGULATORIO,  mode=IN, jdbcType=VARCHAR})} ]]>
+   </select>
+   
+   
+    <select id='getAfecta' parameterType='int' resultType='int'>     
+SELECT FLG_AFECTA_IDI
+FROM INCIDENTE
+where id_solicitud=#{idSolicitud}
+     </select>
+     
+     <select id='getRegulatorio' parameterType='int' resultType='int'>     
+SELECT FLG_REGULATORIO
+FROM INCIDENTE
+where id_solicitud=#{idSolicitud}
+     </select>
 
 </mapper>

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='com.mapfre.api.mappers.UsuarioMapper'>
+
+ 
+  <select id='getEmail' parameterType='int' resultType="String">
+	SELECT 
+		P.TXT_CORREO_CORPORATIVO
+	FROM 
+		SOLICITUD S JOIN USUARIO U ON U.ID_USUARIO = S.USUARIO_ADICION
+		JOIN PERSONAL P ON P.ID_PERSONA = U.ID_PERSONA
+	WHERE 
+		S.ID_SOLICITUD = #{solicitudId}
+  </select>
+  
+</mapper>
